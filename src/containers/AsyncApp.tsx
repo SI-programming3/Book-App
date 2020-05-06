@@ -15,11 +15,19 @@ class AsyncApp extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleRefreshClick = this.handleRefreshClick.bind(this);
   }
+  // .bind(this)でhandleCHangeなどのthisの参照先がAsyncAppクラスになる。
 
   componentDidMount() {
     const { dispatch, selectedSubreddit } = this.props;
     dispatch(fetchPostsIfNeeded(selectedSubreddit));
   }
+  /* 
+  render直後に行われる。
+  dispatchやselectedSubredditにthis.propsのものが入る。
+  同名ならdispatch=this.props.dispatch、
+  別名ならdispatch={this.props.foo: fuga}のようになる？
+  
+  */
 
   componentDidUpdate(prevProps) {
     if (this.props.selectedSubreddit !== prevProps.selectedSubreddit) {
