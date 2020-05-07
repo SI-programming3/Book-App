@@ -89,6 +89,9 @@ class AsyncApp extends Component {
 render部分ではvalueにsubreddit、onChangeにhandleChange、optionsにreactjsかfrontend。
 lastupdatedのところはrefreshボタンが押された時に、
   handleRefreshClick→fetchPostsIfNeeded→fetchPosts→receivePostsで時刻が更新される。
+isFetchingがfalseだとボタンが消える。これはボタンを押したあとに消える。
+isFetching中（refresh中）にposts.lengthが0ならLoading...が出る。
+
 */
 
 AsyncApp.propTypes = {
