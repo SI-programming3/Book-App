@@ -46,6 +46,7 @@ function receivePosts(subreddit, json) {
 }
 /*
 ネットワークのリクエストが通ってレスが返ってきたらdispatchされる。
+jsonデータを見てみるとjson.data.childrenの中にdataがあったので、それをpostsに渡す。
 
 */
 //---------------------------------------------------------------------------
@@ -60,6 +61,12 @@ function fetchPosts(subreddit) {
   };
 }
 /*
+fetch()の結果がPromiseオブジェクトとして返ってきて、
+  このPromiseの結果は Response オブジェクトで、 
+  response.json()でリクエストの結果を文字列で解決されたPromiseを得ることができる
+そして再びthenを使ってアクセスしている？
+json形式のデータはオブジェクトの形。（{'id': num, 'name': 'hoge'}的な）
+
 サンクミドルウェアは、関数の処理方法を知っています。
 関数の引数としてdispatchメソッドを渡します。
 したがって、アクション自体をdispatchできるようになります.

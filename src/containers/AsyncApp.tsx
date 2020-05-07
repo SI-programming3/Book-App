@@ -26,7 +26,7 @@ class AsyncApp extends Component {
   dispatchやselectedSubredditにthis.propsのものが入る。
   同名ならdispatch=this.props.dispatch、
   別名ならdispatch={this.props.foo: fuga}のようになる？
-  
+  初回のデータフェッチ。
   */
 
   componentDidUpdate(prevProps) {
@@ -35,6 +35,12 @@ class AsyncApp extends Component {
       dispatch(fetchPostsIfNeeded(selectedSubreddit));
     }
   }
+  /*
+  更新が起こった直後（componentのpropsやstateが更新された時）に行われる。
+  selectSubredditが変更された時に実行される。
+  やってることはDidMountと同じ。
+  変更に応じて再フェッチする場合に必要なのがこっち。
+  */
 
   handleChange(nextSubreddit) {
     this.props.dispatch(selectSubreddit(nextSubreddit));
@@ -79,6 +85,11 @@ class AsyncApp extends Component {
     );
   }
 }
+/*
+render部分ではvalueにsubreddit、onChangeにhandleChange、optionsにreactjsかfrontend。
+lastupdatedのところはrefreshボタンが押された時に、
+  handleRefreshClick→fetchPostsIfNeeded→fetchPosts→receivePostsで時刻が更新される。
+*/
 
 AsyncApp.propTypes = {
   selectedSubreddit: PropTypes.string.isRequired,

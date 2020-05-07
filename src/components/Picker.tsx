@@ -18,3 +18,9 @@ export default class Picker extends Component {
     );
   }
 }
+
+/*
+h1のところはreactjsかfrontendを表示する。
+selectのところはreactjsかfrontendを選択できる。ここの変更でh1やリストの表示が変わる。
+optionsのなかに選択する項目があるので、それを用いて一つずつ選択肢に出力している
+*/

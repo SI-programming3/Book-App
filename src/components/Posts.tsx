@@ -11,3 +11,7 @@ export default class Posts extends Component {
     );
   }
 }
+
+/*
+subredditのタイトルの表示を箇条書きで出力している？
+*/
