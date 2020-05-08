@@ -1,6 +1,5 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect, useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   selectSubreddit,
   fetchPostsIfNeeded,
@@ -8,109 +7,22 @@ import {
 } from "../actions";
 import Picker from "../components/Picker";
 import Posts from "../components/Posts";
-import { RootState } from "./Root";
+import { RootState } from "../configureStore";
 
-class AsyncApp extends Component {
-  constructor(props: {
-    selectedSubreddit: string;
-    posts: any[];
-    isFetching: boolean;
-    lastUpdated: number;
-    dispatch: Function;
-  }) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleRefreshClick = this.handleRefreshClick.bind(this);
-  }
-  // .bind(this)でhandleCHangeなどのthisの参照先がAsyncAppクラスになる。
+const AsyncApp = () => {
+  const { selectedSubreddit, postsBySubreddit } = useSelector(
+    (state: RootState) => state
+  );
+  const dispatch = useDispatch();
 
-  componentDidMount() {
-    const { dispatch, selectedSubreddit } = this.props;
+  useEffect(() => {
     dispatch(fetchPostsIfNeeded(selectedSubreddit));
-  }
-  /* 
-  render直後に行われる。
-  dispatchやselectedSubredditにthis.propsのものが入る。
-  同名ならdispatch=this.props.dispatch、
-  別名ならdispatch={this.props.foo: fuga}のようになる？
-  初回のデータフェッチ。
-  */
-
-  componentDidUpdate(prevProps) {
-    if (this.props.selectedSubreddit !== prevProps.selectedSubreddit) {
-      const { dispatch, selectedSubreddit } = this.props;
-      dispatch(fetchPostsIfNeeded(selectedSubreddit));
-    }
-  }
+  }, [dispatch, selectedSubreddit]);
   /*
-  更新が起こった直後（componentのpropsやstateが更新された時）に行われる。
-  selectSubredditが変更された時に実行される。
-  やってることはDidMountと同じ。
-  変更に応じて再フェッチする場合に必要なのがこっち。
+  useEffectは第１引数にコールバック関数、
+  第２引数にそのコールバック関数が依存する値の配列を入れる
   */
 
-  handleChange(nextSubreddit) {
-    this.props.dispatch(selectSubreddit(nextSubreddit));
-    this.props.dispatch(fetchPostsIfNeeded(nextSubreddit));
-  }
-
-  handleRefreshClick(e) {
-    e.preventDefault();
-
-    const { dispatch, selectedSubreddit } = this.props;
-    dispatch(invalidateSubreddit(selectedSubreddit));
-    dispatch(fetchPostsIfNeeded(selectedSubreddit));
-  }
-
-  render() {
-    const { selectedSubreddit, posts, isFetching, lastUpdated } = this.props;
-    return (
-      <div>
-        <Picker
-          value={selectedSubreddit}
-          onChange={this.handleChange}
-          options={["reactjs", "frontend"]}
-        />
-        <p>
-          {lastUpdated && (
-            <span>
-              Last updated at {new Date(lastUpdated).toLocaleTimeString()}.{" "}
-            </span>
-          )}
-          {!isFetching && (
-            <button onClick={this.handleRefreshClick}>Refresh</button>
-          )}
-        </p>
-        {isFetching && posts.length === 0 && <h2>Loading...</h2>}
-        {!isFetching && posts.length === 0 && <h2>Empty.</h2>}
-        {posts.length > 0 && (
-          <div style={{ opacity: isFetching ? 0.5 : 1 }}>
-            <Posts posts={posts} />
-          </div>
-        )}
-      </div>
-    );
-  }
-}
-/*
-render部分ではvalueにsubreddit、onChangeにhandleChange、optionsにreactjsかfrontend。
-lastupdatedのところはrefreshボタンが押された時に、
-  handleRefreshClick→fetchPostsIfNeeded→fetchPosts→receivePostsで時刻が更新される。
-isFetchingがfalseだとボタンが消える。これはボタンを押したあとに消える。
-isFetching中（refresh中）にposts.lengthが0ならLoading...が出る。
-
-*/
-
-AsyncApp.propTypes = {
-  selectedSubreddit: PropTypes.string.isRequired,
-  posts: PropTypes.array.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  lastUpdated: PropTypes.number,
-  dispatch: PropTypes.func.isRequired,
-};
-
-function mapStateToProps(state: RootState) {
-  const { selectedSubreddit, postsBySubreddit } = state;
   const { isFetching, lastUpdated, items: posts } = postsBySubreddit[
     selectedSubreddit
   ] || {
@@ -118,12 +30,40 @@ function mapStateToProps(state: RootState) {
     items: [],
   };
 
-  return {
-    selectedSubreddit,
-    posts,
-    isFetching,
-    lastUpdated,
+  const handleChange = (nextSubreddit: string) => {
+    dispatch(selectSubreddit(nextSubreddit));
   };
-}
 
-export default connect(mapStateToProps)(AsyncApp);
+  const handleRefreshClick = (ev: React.MouseEvent) => {
+    ev.preventDefault();
+    dispatch(invalidateSubreddit(selectedSubreddit));
+    dispatch(fetchPostsIfNeeded(selectedSubreddit));
+  };
+
+  return (
+    <div>
+      <Picker
+        value={selectedSubreddit}
+        onChange={handleChange}
+        options={["reactjs", "frontend"]}
+      />
+      <p>
+        {lastUpdated && (
+          <span>
+            Last updated at {new Date(lastUpdated).toLocaleTimeString()}.{" "}
+          </span>
+        )}
+        {!isFetching && <button onClick={handleRefreshClick}>Refresh</button>}
+      </p>
+      {isFetching && posts.length === 0 && <h2>Loading...</h2>}
+      {!isFetching && posts.length === 0 && <h2>Empty.</h2>}
+      {posts.length > 0 && (
+        <div style={{ opacity: isFetching ? 0.5 : 1 }}>
+          <Posts posts={posts} />
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default AsyncApp;

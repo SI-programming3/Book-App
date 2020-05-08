@@ -1,6 +1,7 @@
 import fetch from "cross-fetch";
-import { RootState } from "./containers/Root";
+import { RootState } from "./configureStore";
 import { useDispatch } from "react-redux";
+import { Dispatch } from "redux";
 //ほとんどのブラウザはFetch APIをサポートしていないのでimportする。
 
 export const REQUEST_POSTS = "REQUEST_POSTS";
@@ -38,11 +39,11 @@ subredditの投稿をフェッチ（読み出し？）する。リクエスト�
   selectとinvalidateから独立して定義する必要がある。
 */
 
-function receivePosts(subreddit: string, json) {
+function receivePosts(subreddit: string, json: any) {
   return {
     type: RECEIVE_POSTS,
     subreddit,
-    posts: json.data.children.map((child) => child.data),
+    posts: json.data.children.map((child: any) => child.data),
     receivedAt: Date.now(),
   };
 }
@@ -103,7 +104,7 @@ postsの中身がなければtrue、isFetchingがtrueならfalseを、
 */
 
 export function fetchPostsIfNeeded(subreddit: string) {
-  return (dispatch = useDispatch(), getState) => {
+  return (dispatch: Dispatch<any>, getState: () => RootState) => {
     if (shouldFetchPosts(getState(), subreddit)) {
       return dispatch(fetchPosts(subreddit));
     }

@@ -19,14 +19,22 @@ function selectedSubreddit(
 }
 //selectSubredditがdispatchされた時に実行される。
 
+type Posts = {
+  isFetching: boolean;
+  didInvalidate: boolean;
+  items: any[];
+};
+
+const initialPosts: Posts = {
+  isFetching: false,
+  didInvalidate: false,
+  items: [],
+};
+
 function posts(
-  state = {
-    isFetching: false,
-    didInvalidate: false,
-    items: [],
-  },
+  state = initialPosts,
   action: { type: string; posts: any[]; receivedAt: number }
-) {
+): Posts {
   switch (action.type) {
     case INVALIDATE_SUBREDDIT:
       return Object.assign({}, state, {
@@ -56,8 +64,12 @@ Object.assignでstateをコピーする。
   RECEIVE_POSTSの場合、それらの更新に加えlastUpdatedが追加される。
 */
 
+type PostsBySubreddit = { [subreddit: string]: any };
+
+const initialPostsBySubreddit: PostsBySubreddit = {};
+
 function postsBySubreddit(
-  state = {},
+  state = initialPostsBySubreddit,
   action: { type: string; subreddit: string; posts: any[]; receivedAt: number }
 ) {
   switch (action.type) {

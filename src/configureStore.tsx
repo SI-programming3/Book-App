@@ -1,16 +1,29 @@
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { createLogger } from "redux-logger";
 import rootReducer from "./reducers";
 
+interface WINDOW extends Window {
+  __REDUX_DEVTOOLS_EXTENSION__?: typeof compose;
+}
+declare const window: WINDOW;
+
 const loggerMiddleware = createLogger();
 
 export default function configureStore() {
+  const devtools =
+    process.env.NODE_ENV !== "production" && window.__REDUX_DEVTOOLS_EXTENSION__
+      ? window.__REDUX_DEVTOOLS_EXTENSION__()
+      : (f: any) => f;
+
   return createStore(
     rootReducer,
-    applyMiddleware(thunkMiddleware, loggerMiddleware)
+    compose(applyMiddleware(thunkMiddleware, loggerMiddleware), devtools)
   );
 }
+
+export type RootState = ReturnType<typeof rootReducer>;
+
 /*
 ミドルウェアなしではReduxのstoreは同期的なデータフローしかサポートしていないが、
   applyMiddleware()を使うことでcreateStore()を拡張できる
