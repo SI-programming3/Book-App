@@ -6,7 +6,10 @@ import {
   RECEIVE_POSTS,
 } from "./actions";
 
-function selectedSubreddit(state = "reactjs", action) {
+function selectedSubreddit(
+  state = "reactjs",
+  action: { type: string; subreddit: string }
+) {
   switch (action.type) {
     case SELECT_SUBREDDIT:
       return action.subreddit;
@@ -22,7 +25,7 @@ function posts(
     didInvalidate: false,
     items: [],
   },
-  action
+  action: { type: string; posts: any; receivedAt: number }
 ) {
   switch (action.type) {
     case INVALIDATE_SUBREDDIT:
@@ -53,7 +56,10 @@ Object.assignでstateをコピーする。
   RECEIVE_POSTSの場合、それらの更新に加えlastUpdatedが追加される。
 */
 
-function postsBySubreddit(state = {}, action) {
+function postsBySubreddit(
+  state = {},
+  action: { type: string; subreddit: string; posts: any; receivedAt: number }
+) {
   switch (action.type) {
     case INVALIDATE_SUBREDDIT:
     case RECEIVE_POSTS:

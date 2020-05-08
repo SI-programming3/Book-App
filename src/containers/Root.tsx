@@ -5,6 +5,8 @@ import AsyncApp from "./AsyncApp";
 
 const store = configureStore();
 
+export type RootState = ReturnType<typeof store.getState>;
+
 export default class Root extends Component {
   render() {
     return (

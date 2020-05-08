@@ -1,4 +1,6 @@
 import fetch from "cross-fetch";
+import { RootState } from "./containers/Root";
+import { useDispatch } from "react-redux";
 //ほとんどのブラウザはFetch APIをサポートしていないのでimportする。
 
 export const REQUEST_POSTS = "REQUEST_POSTS";
@@ -8,7 +10,7 @@ export const INVALIDATE_SUBREDDIT = "INVALIDATE_SUBREDDIT";
 
 //同期のAction Creator
 //---------------------------------------------------------------------------
-export function selectSubreddit(subreddit) {
+export function selectSubreddit(subreddit: string) {
   return {
     type: SELECT_SUBREDDIT,
     subreddit,
@@ -16,7 +18,7 @@ export function selectSubreddit(subreddit) {
 }
 // subredditとして受け取った引数にtypeとsubredditの形で返す。
 
-export function invalidateSubreddit(subreddit) {
+export function invalidateSubreddit(subreddit: string) {
   return {
     type: INVALIDATE_SUBREDDIT,
     subreddit,
@@ -24,7 +26,7 @@ export function invalidateSubreddit(subreddit) {
 }
 // subredditはリフレッシュボタンで更新することができる。
 
-function requestPosts(subreddit) {
+function requestPosts(subreddit: string) {
   return {
     type: REQUEST_POSTS,
     subreddit,
@@ -36,7 +38,7 @@ subredditの投稿をフェッチ（読み出し？）する。リクエスト�
   selectとinvalidateから独立して定義する必要がある。
 */
 
-function receivePosts(subreddit, json) {
+function receivePosts(subreddit: string, json) {
   return {
     type: RECEIVE_POSTS,
     subreddit,
@@ -52,8 +54,8 @@ jsonデータを見てみるとjson.data.childrenの中にdataがあったので
 //---------------------------------------------------------------------------
 
 //非同期のAction Creator
-function fetchPosts(subreddit) {
-  return (dispatch) => {
+function fetchPosts(subreddit: string) {
+  return (dispatch = useDispatch()) => {
     dispatch(requestPosts(subreddit));
     return fetch(`https://www.reddit.com/r/${subreddit}.json`)
       .then((response) => response.json())
@@ -83,7 +85,7 @@ json形式のデータはオブジェクトの形。（{'id': num, 'name': 'hoge
 ここでは、API呼び出しの結果でアプリの状態を更新します。
 */
 
-function shouldFetchPosts(state, subreddit) {
+function shouldFetchPosts(state: RootState, subreddit: string) {
   const posts = state.postsBySubreddit[subreddit];
   if (!posts) {
     return true;
@@ -100,8 +102,8 @@ postsの中身がなければtrue、isFetchingがtrueならfalseを、
   どれにも該当しなければposts.didInvalidateを返す。どれもboolean型である。
 */
 
-export function fetchPostsIfNeeded(subreddit) {
-  return (dispatch, getState) => {
+export function fetchPostsIfNeeded(subreddit: string) {
+  return (dispatch = useDispatch(), getState) => {
     if (shouldFetchPosts(getState(), subreddit)) {
       return dispatch(fetchPosts(subreddit));
     }
