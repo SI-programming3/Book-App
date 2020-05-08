@@ -11,7 +11,13 @@ import Posts from "../components/Posts";
 import { RootState } from "./Root";
 
 class AsyncApp extends Component {
-  constructor(props) {
+  constructor(props: {
+    selectedSubreddit: string;
+    posts: any[];
+    isFetching: boolean;
+    lastUpdated: number;
+    dispatch: Function;
+  }) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleRefreshClick = this.handleRefreshClick.bind(this);

@@ -25,7 +25,7 @@ function posts(
     didInvalidate: false,
     items: [],
   },
-  action: { type: string; posts: any; receivedAt: number }
+  action: { type: string; posts: any[]; receivedAt: number }
 ) {
   switch (action.type) {
     case INVALIDATE_SUBREDDIT:
@@ -58,7 +58,7 @@ Object.assignでstateをコピーする。
 
 function postsBySubreddit(
   state = {},
-  action: { type: string; subreddit: string; posts: any; receivedAt: number }
+  action: { type: string; subreddit: string; posts: any[]; receivedAt: number }
 ) {
   switch (action.type) {
     case INVALIDATE_SUBREDDIT:
