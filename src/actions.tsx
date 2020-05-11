@@ -20,6 +20,8 @@ export const toggleTodo = (id: number) => ({
 export const VisibilityFilters = {
   NEW: "NEW",
   OLD: "OLD",
+  HIGH: "HIGH",
+  LOW: "LOW",
 };
 
 /* 

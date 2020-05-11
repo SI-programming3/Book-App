@@ -7,6 +7,8 @@ const Footer = () => (
     <span>Show: </span>
     <Link filter={VisibilityFilters.NEW}>NEW</Link>
     <Link filter={VisibilityFilters.OLD}>OLD</Link>
+    <Link filter={VisibilityFilters.HIGH}>HIGH</Link>
+    <Link filter={VisibilityFilters.LOW}>LOW</Link>
   </div>
 );
 
