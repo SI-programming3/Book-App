@@ -1,14 +1,19 @@
-import "babel-polyfill";
-
 import React from "react";
 import { render } from "react-dom";
-import Root from "./containers/Root";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import rootReducer from "./reducers";
+import App from "./App";
 
-render(<Root />, document.getElementById("root"));
+const store = createStore(rootReducer);
 
-/* 
-Reddit：英語版の掲示板的なもの。2ch(5ch)的な？
-subreddit：redditでは特定の領域向けに焦点を当てたコミュニティを
-    サブレディット(subreddit)と呼ぶ。これは匿名掲示板2ちゃんねるなどにおける
-    『板』に相当するものであるが、ユーザーが自主的に立ち上げることが可能である。
-*/
+render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
+);
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
