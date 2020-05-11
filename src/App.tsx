@@ -8,8 +8,8 @@ function App() {
     <div>
       Book
       <AddTodo />
+      <Footer />
       <TodoList />
-      {<Footer />}
     </div>
   );
 }

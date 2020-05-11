@@ -13,11 +13,11 @@ const getVisibleTodos = (state: RootState, filter: string) => {
       return state.todos.slice().reverse();
     case VisibilityFilters.HIGH:
       return state.todos.slice().sort((a, b) => {
-        return a.score - b.score;
+        return b.score - a.score;
       });
     case VisibilityFilters.LOW:
       return state.todos.slice().sort((a, b) => {
-        return b.score - a.score;
+        return a.score - b.score;
       });
     default:
       throw new Error("Unknown filter: " + filter);
