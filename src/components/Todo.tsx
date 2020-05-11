@@ -4,14 +4,14 @@ const Todo = (props: {
   completed: boolean;
   title: string;
   score: number;
-  main: string;
+  review: string;
 }) => (
   <li
     style={{
       textDecoration: props.completed ? "line-through" : "none",
     }}
   >
-    {props.title}:{props.score}点:{props.main}
+    {props.title}:{props.score}点:{props.review}
   </li>
 );
 

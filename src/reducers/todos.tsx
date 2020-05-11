@@ -4,14 +4,14 @@ const todos = (
     id: number;
     title: string;
     score: number;
-    main: string;
+    review: string;
   }[] = [],
   action: {
     type: string;
     id: number;
     title: string;
     score: number;
-    main: string;
+    review: string;
   }
 ) => {
   switch (action.type) {
@@ -22,7 +22,7 @@ const todos = (
           id: action.id,
           title: action.title,
           score: action.score,
-          main: action.main,
+          review: action.review,
           completed: false,
         },
       ];

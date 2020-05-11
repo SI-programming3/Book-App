@@ -1,10 +1,10 @@
 let nextTodoId = 0;
-export const addTodo = (title: string, score: number, main: string) => ({
+export const addTodo = (title: string, score: number, review: string) => ({
   type: "ADD_TODO",
   id: nextTodoId++,
   title,
   score,
-  main,
+  review,
 });
 
 export const setVisibilityFilter = (filter: string) => ({
