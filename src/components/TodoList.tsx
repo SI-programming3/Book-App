@@ -8,9 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 const getVisibleTodos = (state: RootState, filter: string) => {
   switch (filter) {
     case VisibilityFilters.NEW:
-      return state.todos;
-    case VisibilityFilters.OLD:
       return state.todos.slice().reverse();
+    case VisibilityFilters.OLD:
+      return state.todos;
     case VisibilityFilters.HIGH:
       return state.todos.slice().sort((a, b) => {
         return b.score - a.score;
@@ -28,10 +28,15 @@ const TodoList = () => {
   const items = useSelector((state: RootState) =>
     getVisibleTodos(state, state.visibilityFilter)
   );
+  const dispatch = useDispatch();
   return (
     <ul>
       {items.map((todo) => (
-        <Todo key={todo.id} {...todo} />
+        <Todo
+          key={todo.id}
+          {...todo}
+          onClick={() => dispatch(toggleTodo(todo.id))}
+        />
       ))}
     </ul>
   );

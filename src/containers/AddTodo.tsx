@@ -56,7 +56,7 @@ const AddTodo = () => {
         ))}
       </select>
       <br />
-      感想と評価：
+      感想と評価
       <br />
       <textarea
         className={styles.review}

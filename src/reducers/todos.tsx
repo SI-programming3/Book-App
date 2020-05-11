@@ -26,12 +26,18 @@ const todos = (
           completed: false,
         },
       ];
-    /*  case "TOGGLE_TODO":
+    case "TOGGLE_TODO":
       return state.map(
-        (todo: { completed: boolean; id: number; text: string }) =>
+        (todo: {
+          completed: boolean;
+          id: number;
+          title: string;
+          score: number;
+          review: string;
+        }) =>
           todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
       );
-  */ default:
+    default:
       return state;
   }
 };

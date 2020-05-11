@@ -5,15 +5,22 @@ const Todo = (props: {
   title: string;
   score: number;
   review: string;
-}) => (
-  <li
-    style={{
-      textDecoration: props.completed ? "line-through" : "none",
-    }}
-  >
-    {props.title}:{props.score}点:{props.review}
-  </li>
-);
+  onClick: () => { type: string; id: number };
+}) => {
+  let review: string;
+  if (props.completed) {
+    review = props.review;
+  } else {
+    review = "";
+  }
+  return (
+    <li onClick={props.onClick}>
+      {props.title}:{props.score}点
+      <br />
+      {review}
+    </li>
+  );
+};
 
 export default Todo;
 
