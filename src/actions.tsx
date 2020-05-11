@@ -1,8 +1,10 @@
 let nextTodoId = 0;
-export const addTodo = (text: string) => ({
+export const addTodo = (title: string, score: number, main: string) => ({
   type: "ADD_TODO",
   id: nextTodoId++,
-  text,
+  title,
+  score,
+  main,
 });
 
 export const setVisibilityFilter = (filter: string) => ({
@@ -16,9 +18,8 @@ export const toggleTodo = (id: number) => ({
 });
 
 export const VisibilityFilters = {
-  SHOW_ALL: "SHOW_ALL",
-  SHOW_COMPLETED: "SHOW_COMPLETED",
-  SHOW_ACTIVE: "SHOW_ACTIVE",
+  NEW: "NEW",
+  OLD: "OLD",
 };
 
 /* 

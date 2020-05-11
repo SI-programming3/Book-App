@@ -5,12 +5,21 @@ import { VisibilityFilters } from "../actions";
 import { RootState } from "../reducers";
 import { useDispatch, useSelector } from "react-redux";
 
-const getVisibleTodos = (state: RootState) => {
-  return state.todos;
+const getVisibleTodos = (state: RootState, filter: string) => {
+  switch (filter) {
+    case VisibilityFilters.NEW:
+      return state.todos;
+    case VisibilityFilters.OLD:
+      return state.todos.slice().reverse();
+    default:
+      throw new Error("Unknown filter: " + filter);
+  }
 };
 
 const TodoList = () => {
-  const items = useSelector((state: RootState) => getVisibleTodos(state));
+  const items = useSelector((state: RootState) =>
+    getVisibleTodos(state, state.visibilityFilter)
+  );
   return (
     <ul>
       {items.map((todo) => (

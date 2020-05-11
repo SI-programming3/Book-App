@@ -7,22 +7,32 @@ const { useState } = React;
 
 const AddTodo = () => {
   const dispatch = useDispatch();
-  let [title, setTitle] = useState("");
-  let [main, setMain] = useState("");
-  const score = [0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0];
+  const [title, setTitle] = useState("");
+  const [score, setScore] = useState(0);
+  const [main, setMain] = useState("");
+  const Score = [0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0];
+  const [history, setHistory] = useState(Array());
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setTitle((title = e.target.value));
-    setMain((main = e.target.value));
+  const textChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (e.target.name === "title") setTitle(e.target.value);
+    if (e.target.name === "main") setMain(e.target.value);
+  };
+
+  const scoreChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setScore(parseFloat(e.target.value));
   };
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (!main.trim()) {
+    if (!title.trim() || !main.trim()) {
       return;
     }
-    dispatch(addTodo(main));
-    setMain((main = ""));
+    const newHistory = [...history, { title: title, score: score, main: main }];
+    setHistory(newHistory);
+    dispatch(addTodo(title, score, main));
+    console.log(newHistory);
+    setTitle("");
+    setMain("");
   };
 
   return (
@@ -30,12 +40,13 @@ const AddTodo = () => {
       タイトル：
       <textarea
         className={styles.title}
+        name="title"
         value={title}
-        onChange={handleChange}
+        onChange={textChange}
       />
       点数：
-      <select>
-        {score.map((score) => (
+      <select onChange={scoreChange}>
+        {Score.map((score) => (
           <option value={score} key={score}>
             {score}
           </option>
@@ -44,7 +55,12 @@ const AddTodo = () => {
       <br />
       感想と評価：
       <br />
-      <textarea className={styles.main} value={main} onChange={handleChange} />
+      <textarea
+        className={styles.main}
+        name="main"
+        value={main}
+        onChange={textChange}
+      />
       <button type="submit" onClick={handleSubmit}>
         完了
       </button>

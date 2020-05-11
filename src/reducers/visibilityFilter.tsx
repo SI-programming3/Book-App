@@ -1,7 +1,7 @@
 import { VisibilityFilters } from "../actions";
 
 const visibilityFilter = (
-  state = VisibilityFilters.SHOW_ALL,
+  state = VisibilityFilters.NEW,
   action: { type: string; filter: string }
 ) => {
   switch (action.type) {

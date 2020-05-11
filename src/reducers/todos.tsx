@@ -1,6 +1,18 @@
 const todos = (
-  state: { completed: boolean; id: number; text: string }[] = [],
-  action: { type: string; id: number; text: string }
+  state: {
+    completed: boolean;
+    id: number;
+    title: string;
+    score: number;
+    main: string;
+  }[] = [],
+  action: {
+    type: string;
+    id: number;
+    title: string;
+    score: number;
+    main: string;
+  }
 ) => {
   switch (action.type) {
     case "ADD_TODO":
@@ -8,16 +20,18 @@ const todos = (
         ...state,
         {
           id: action.id,
-          text: action.text,
+          title: action.title,
+          score: action.score,
+          main: action.main,
           completed: false,
         },
       ];
-    case "TOGGLE_TODO":
+    /*  case "TOGGLE_TODO":
       return state.map(
         (todo: { completed: boolean; id: number; text: string }) =>
           todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
       );
-    default:
+  */ default:
       return state;
   }
 };
