@@ -1,5 +1,5 @@
 export type Reviews = {
-  completed: boolean;
+  show: boolean;
   id: number;
   title: string;
   score: number;
@@ -23,14 +23,12 @@ const reviews = (
           score: action.score,
           review: action.review,
           date: action.date,
-          completed: false,
+          show: false,
         },
       ];
     case "TOGGLE":
       return state.map((review) =>
-        review.id === action.id
-          ? { ...review, completed: !review.completed }
-          : review
+        review.id === action.id ? { ...review, show: !review.show } : review
       );
     default:
       return state;

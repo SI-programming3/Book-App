@@ -6,7 +6,7 @@ type ReviewProps = Reviews & { onClick: () => void };
 const Review: React.FC<ReviewProps> = ({
   title,
   score,
-  completed,
+  show,
   review,
   date,
   onClick,
@@ -16,7 +16,7 @@ const Review: React.FC<ReviewProps> = ({
     <li onClick={onClick}>
       {dateString} {title}: {score}点
       <br />
-      {completed ? review : ""}
+      {show ? review : ""}
     </li>
   );
 };
