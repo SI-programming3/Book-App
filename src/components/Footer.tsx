@@ -4,7 +4,7 @@ import { VisibilityFilters } from "../actions";
 
 const Footer = () => (
   <div>
-    <span>Show: </span>
+    <span>ソート: </span>
     <Link filter={VisibilityFilters.NEW}>NEW</Link>
     <Link filter={VisibilityFilters.OLD}>OLD</Link>
     <Link filter={VisibilityFilters.HIGH}>HIGH</Link>
@@ -13,8 +13,3 @@ const Footer = () => (
 );
 
 export default Footer;
-
-/*
-単にFilterLinkにfilterにVisibilityFiltersのプロパティの中身を代入しているだけ。
-AllやActiveはここで出力しているわけではない。Link内で出力している。
-*/

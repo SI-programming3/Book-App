@@ -1,6 +1,6 @@
 import React from "react";
-import AddTodo from "./containers/AddTodo";
-import TodoList from "./components/TodoList";
+import AddReview from "./containers/AddReview";
+import ReviewList from "./components/ReviewList";
 import Footer from "./components/Footer";
 import styles from "./App.module.css";
 
@@ -8,9 +8,9 @@ function App() {
   return (
     <div className={styles.App}>
       本のレビュー
-      <AddTodo />
+      <AddReview />
       <Footer />
-      <TodoList />
+      <ReviewList />
     </div>
   );
 }

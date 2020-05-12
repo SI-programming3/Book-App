@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
-import todos from "./todos";
+import reviews from "./reviews";
 import visibilityFilter from "./visibilityFilter";
 
 const rootReducer = combineReducers({
-  todos,
+  reviews,
   visibilityFilter,
 });
 

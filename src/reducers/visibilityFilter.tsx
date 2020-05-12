@@ -13,10 +13,3 @@ const visibilityFilter = (
 };
 
 export default visibilityFilter;
-
-/*
-dispatch(setVisibilityFilter(filter))でactionが実行された後に実行される。
-visibilityFilterにaction.filterを代入し、出力する。
-最初に呼び出された時、VisibilityFilters内でAll,Active,Completedが定義されているため、
-  stateに何も入っていない初期状態ではSHOW_ALLを代入する。
-*/
