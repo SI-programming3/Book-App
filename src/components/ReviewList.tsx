@@ -4,6 +4,7 @@ import { toggle } from "../actions";
 import { VisibilityFilters } from "../actions";
 import { RootState } from "../reducers";
 import { useDispatch, useSelector } from "react-redux";
+import styles from "../App.module.css";
 
 const getVisibleReviews = (state: RootState, filter: string) => {
   switch (filter) {
@@ -34,7 +35,7 @@ const ReviewList = () => {
   );
   const dispatch = useDispatch();
   return (
-    <ul>
+    <ul className={styles.review}>
       {items.map((review) => (
         <Review
           key={review.id}

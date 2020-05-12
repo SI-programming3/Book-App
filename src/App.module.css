@@ -14,3 +14,7 @@ textarea.title {
   width: 500px;
   height: 100px;
 }
+
+ul.review {
+  margin-left: 400px;
+}
