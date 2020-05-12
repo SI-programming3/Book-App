@@ -57,7 +57,7 @@ const AddReview = () => {
         ))}
       </select>
       <br />
-      感想と評価
+      レビュー
       <br />
       <textarea
         className={styles.review}
@@ -65,8 +65,9 @@ const AddReview = () => {
         value={review}
         onChange={textChange}
       />
+      <br />
       <button type="submit" onClick={handleSubmit}>
-        完了
+        レビューを確定
       </button>
     </div>
   );
